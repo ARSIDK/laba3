@@ -2,37 +2,33 @@
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
 #include <iostream>
-using namespace std;
+#include <vector>
+#include <cstring>
 
+using  namespace  std;
 char* myStrcat(char* dest, const char* src) {
- 
-    char* ptr = dest;
-    while (*ptr != '\0') {   //нахождение конца стр
-        ptr++;
+    size_t destLen = strlen(dest);
+    size_t srcLen = strlen(src);
+     
+    vector<char> result(destLen + srcLen + 1); 
+    
+    for (size_t i = 0; i < destLen; ++i) {
+        result[i] = dest[i];
     }
-
-    while (*src != '\0') {
-        *ptr = *src;             //переност стр
-        ptr++;
-        src++;
+    for (size_t i = 0; i < srcLen; ++i) {
+        result[destLen + i] = src[i];
     }
-
-    *ptr = '\0';
-
-    return dest;
+    result[destLen + srcLen] = '\0';
+    return result.data();
 }
 
 int main() {
-    setlocale(LC_ALL, "rus");
-
     char dest[50] = "Hello, ";
-    const char* src = "world!";
-
-    cout << "Строка до объединения: " << dest << endl;
-
-    myStrcat(dest, src);
-
-    cout << "Строка после объединения: " << dest << endl;
+    const char* src = "World!";
+    
+    char* result = myStrcat(dest, src);
+    
+    cout << "Результат: " << result << endl;
 
     return 0;
 }
